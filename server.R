@@ -2,7 +2,6 @@ library(gapminder)
 library(dplyr)
 library(ggplot2)
 library(scales)
-library(gganimate)
 library(ggmap)
 library(RColorBrewer)
 library(DT)
@@ -14,17 +13,6 @@ gapminder<-readRDS(file="./data/gapminderDemo.RDS")
 continent<-unique(gapminder$continent)
 pal <- colorFactor(brewer.pal(n=length(continent),name="Set2"), domain = continent)
 
-#create a baseline world map
-worldMap <- map_data("world")
-baseMap<-ggplot()+
-  geom_map(data = worldMap,map=worldMap,
-           aes(long, lat, map_id=region),
-           color="#2b2b2b", fill=NA, size=0.15)+
-  theme_bw()+
-  theme(axis.title = element_blank(),
-        axis.text = element_blank(),
-        panel.grid = element_blank(),
-        axis.ticks = element_blank())
 
 server <- function(input, output,session) {
   
@@ -53,7 +41,6 @@ server <- function(input, output,session) {
   
   #reactive event to make the gganimate work better
   values<-reactiveValues(
-    gapP = NULL,
     clickedMarker=NULL #store the gapminder plots 
   )
   
@@ -107,10 +94,8 @@ server <- function(input, output,session) {
     if(input$showPath){
       p<-p+geom_path(alpha=0.5)
     }
-   
-    values$gapP<- p #store this for later
-    
-   p
+
+    p
   })
   
   #leaflet world map
