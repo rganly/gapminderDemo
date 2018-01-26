@@ -59,12 +59,17 @@ server <- function(input, output,session) {
   #renderPlot
   output$gapminderPlot<-renderPlot({
     df<-gapminder_filt() #I don't want to handle this reactively
+    
+    annotateDate<-FALSE
 
     if(!is.null(values$clickedMarker)){
       tmp<-values$clickedMarker
       tmp2<-df %>% filter(lat == tmp$lat & lon == tmp$lng)
-      if(nrow(tmp2)!=0)
+      
+      if(nrow(tmp2)!=0){
         df<-tmp2
+        annotateDate<-TRUE
+      }
     }
     
     p<-df %>% 
@@ -95,6 +100,13 @@ server <- function(input, output,session) {
       p<-p+geom_path(alpha=0.5)
     }
 
+    if(annotateDate){
+      p<-p +
+        geom_text(aes(label = year),size=5, nudge_y = -0.5) +
+        guides(colour=FALSE) +
+        ggtitle(paste("Health and Wealth - ",unique(df$country)))
+    }
+    
     p
   })
   

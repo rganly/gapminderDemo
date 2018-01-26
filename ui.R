@@ -18,6 +18,8 @@ dashboardPage(
     tabsetPanel( 
       tabPanel("Plot",
         leafletOutput("leafletWorldMap"),
+        br(),
+        br(),
         plotOutput("gapminderPlot"),
         br(),
         radioButtons(inputId = "axis",
