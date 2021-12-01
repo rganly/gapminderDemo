@@ -6,6 +6,24 @@ library(ggmap)
 library(RColorBrewer)
 library(DT)
 
+# Save objects to dsplay to output$ e.g.
+
+# Use render*() function which creates the *type* of output
+server<-function(input, output){
+  output$hist<-renderPlot({
+  my_title<-"100 random normal values"
+  hist(rnorm(100),main=my_title)
+  })
+}
+
+# Use input values with input$
+# Use render*() function which creates the *type* of output
+server<-function(input, output){
+  output$hist<-renderPlot({
+  my_title<-"100 random normal values"
+  hist(rnorm(100),main=my_title)})
+}
+
 #load gapminder data with lat and long co-ordinates
 gapminder<-readRDS(file="./data/gapminderDemo.RDS")
 

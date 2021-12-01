@@ -2,6 +2,10 @@ library(shinydashboard)
 library(shiny)
 library(leaflet)
 
+ui<-fluidPage()
+my_server<-function(input, output){}
+
+shinyApp(ui=ui, server=server)
 
 dashboardPage(
   dashboardHeader(
